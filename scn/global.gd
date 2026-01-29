@@ -8,9 +8,9 @@ var damage_basic := 10
 var gold := 150
 
 # Ресурсы
-var rock := 200
-var wood := 300
-var food := 15
+var rock := 0
+var wood := 0
+var food := 10
 
 # Апгрейды магазина (лимит 7; для бесконечности поставить max = -1)
 var shop_upgrades := {
