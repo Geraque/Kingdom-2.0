@@ -59,17 +59,55 @@ func _on_menu_button_pressed() -> void:
 	game_paused = !game_paused
 	_apply_pause_state()
 	
-func save_game():
-	var file = FileAccess.open(save_path, FileAccess.WRITE)
-	file.store_var(Global.gold)
-	file.store_var(player.position.x)
-	file.store_var(player.position.y)
-	
-func load_game():
-	var file = FileAccess.open(save_path, FileAccess.READ)
-	Global.gold = file.get_var(Global.gold)
-	player.position.x = file.get_var(player.position.x)
-	player.position.y = file.get_var(player.position.y)
+func save_game() -> void:
+	var file := FileAccess.open(save_path, FileAccess.WRITE)
+	if file == null:
+		return
+
+	var data: Dictionary = {
+		"gold": Global.gold,
+		"rock": Global.rock,
+		"wood": Global.wood,
+		"food": Global.food,
+		"shop_upgrades": Global.shop_upgrades, # если требуется сохранять апгрейды
+		"player_pos": player.global_position
+	}
+
+	file.store_var(data)
+
+
+func load_game() -> void:
+	if not FileAccess.file_exists(save_path):
+		return
+
+	var file: FileAccess = FileAccess.open(save_path, FileAccess.READ)
+	if file == null:
+		return
+
+	var first: Variant = file.get_var(false)
+
+	if typeof(first) == TYPE_DICTIONARY:
+		var data: Dictionary = first
+
+		Global.gold = int(data.get("gold", Global.gold))
+		Global.rock = int(data.get("rock", Global.rock))
+		Global.wood = int(data.get("wood", Global.wood))
+		Global.food = int(data.get("food", Global.food))
+
+		var upgrades: Variant = data.get("shop_upgrades", null)
+		if typeof(upgrades) == TYPE_DICTIONARY:
+			Global.shop_upgrades = upgrades
+
+		var pos: Variant = data.get("player_pos", null)
+		if typeof(pos) == TYPE_VECTOR2:
+			player.global_position = pos
+
+		return
+
+	# Старый формат (если раньше сохранялось по одному значению)
+	Global.gold = int(first)
+	player.position.x = float(file.get_var(false))
+	player.position.y = float(file.get_var(false))
 
 
 func _on_save_pressed() -> void:

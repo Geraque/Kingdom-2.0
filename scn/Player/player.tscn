@@ -12,10 +12,10 @@
 [ext_resource type="Texture2D" uid="uid://cmmcuo4sks8xb" path="res://assets/spotlight_6.png" id="10_w7r13"]
 [ext_resource type="AudioStream" uid="uid://b6ojnr774liar" path="res://assets/sound/SFX/player/step.MP3" id="11_l7qlk"]
 [ext_resource type="AudioStream" uid="uid://dkuchf2wghcms" path="res://assets/sound/SFX/player/step2.MP3" id="12_8qu8i"]
-[ext_resource type="AudioStream" uid="uid://dcjsy6itoat4n" path="res://assets/sound/SFX/player/swing.MP3" id="13_pwibv"]
-[ext_resource type="AudioStream" uid="uid://odkmq5xtflgk" path="res://assets/sound/SFX/player/swing2.MP3" id="14_oljel"]
-[ext_resource type="AudioStream" uid="uid://qirwqggir5ne" path="res://assets/sound/SFX/player/swing3.MP3" id="15_376rx"]
-[ext_resource type="AudioStream" uid="uid://c0ls738aisv7h" path="res://assets/sound/SFX/player/swing4.MP3" id="16_uimrg"]
+[ext_resource type="AudioStream" uid="uid://csenh3426uy60" path="res://assets/sound/SFX/player/Sword Attack 1.wav" id="13_uimrg"]
+[ext_resource type="AudioStream" uid="uid://dl86oxt2kmiqt" path="res://assets/sound/SFX/player/Sword Attack 2.wav" id="14_dgot3"]
+[ext_resource type="AudioStream" uid="uid://g7uq7sjndq5n" path="res://assets/sound/SFX/player/Sword Attack 3.wav" id="15_wux63"]
+[ext_resource type="AudioStream" uid="uid://daiwbyk66h82v" path="res://assets/sound/SFX/player/Sword Parry 1.wav" id="16_afrfx"]
 [ext_resource type="AudioStream" uid="uid://oqlyj4o02kcb" path="res://assets/sound/SFX/player/smack.MP3" id="17_oljel"]
 [ext_resource type="AudioStream" uid="uid://b3csw5em4dp0e" path="res://assets/sound/SFX/player/player_hurt.MP3" id="18_uimrg"]
 [ext_resource type="AudioStream" uid="uid://b2qe64m7oriq3" path="res://assets/sound/SFX/player/player)hurt2.MP3" id="19_dgot3"]
@@ -1405,10 +1405,10 @@ stream_1/stream = ExtResource("12_8qu8i")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dgot3"]
 streams_count = 4
-stream_0/stream = ExtResource("13_pwibv")
-stream_1/stream = ExtResource("14_oljel")
-stream_2/stream = ExtResource("15_376rx")
-stream_3/stream = ExtResource("16_uimrg")
+stream_0/stream = ExtResource("13_uimrg")
+stream_1/stream = ExtResource("14_dgot3")
+stream_2/stream = ExtResource("15_wux63")
+stream_3/stream = ExtResource("16_afrfx")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wux63"]
 streams_count = 2

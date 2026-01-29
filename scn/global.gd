@@ -5,7 +5,7 @@ signal upgrade_changed(category: String, key: String)
 var player_pos
 var player_damage
 var damage_basic := 10
-var gold := 150
+var gold := 9999
 
 # Ресурсы
 var rock := 0
@@ -21,14 +21,14 @@ var shop_upgrades := {
 		"regen":   {"title": "+HP реген",   "level": 0, "max": 7, "base_cost": 18, "cost_mult": 1.35, "base_buff": 1,  "buff_step": 1},
 	},
 	"farm": {
-		"rock":    {"title": "+Добыча камня",    "level": 0, "max": 7, "base_cost": 15, "cost_mult": 1.35, "base_buff": 5,  "buff_step": 5},
-		"wood":    {"title": "+Добыча дерева",   "level": 0, "max": 7, "base_cost": 15, "cost_mult": 1.35, "base_buff": 5,  "buff_step": 5},
+		"rock":    {"title": "+Добыча камня",    "level": 0, "max": 4, "base_cost": 15, "cost_mult": 1.35, "base_buff": 5,  "buff_step": 5},
+		"wood":    {"title": "+Добыча дерева",   "level": 0, "max": 4, "base_cost": 15, "cost_mult": 1.35, "base_buff": 5,  "buff_step": 5},
 		"mobs":    {"title": "+Добыча монстров", "level": 0, "max": 7, "base_cost": 25, "cost_mult": 1.40, "base_buff": 5,  "buff_step": 5},
 	},
 }
 
 var sell_prices := {
-	"rock": 1,
+	"rock": 2,
 	"wood": 1,
 	"food": 2,
 }
@@ -116,3 +116,46 @@ func sell_resource(key: String, amount: int) -> bool:
 		return false
 	gold += int(sell_prices[key]) * amount
 	return true
+
+
+# Добавление ресурса (для дропа)
+func resource_add(key: String, amount: int) -> void:
+	if amount <= 0:
+		return
+	match key:
+		"rock":
+			rock += amount
+		"wood":
+			wood += amount
+		"food":
+			food += amount
+
+# Уровни добычи (1..5) берутся из вкладки "Фарм" магазина.
+# В shop_upgrades хранится внутренний уровень 0..4, поэтому +1.
+const MAX_GATHER_LEVEL := 5
+
+func gather_level(key: String) -> int:
+	match key:
+		"wood":
+			if shop_upgrades.has("farm") and shop_upgrades["farm"].has("wood"):
+				return clamp(int(shop_upgrades["farm"]["wood"]["level"]) + 1, 1, MAX_GATHER_LEVEL)
+			return 1
+		"rock":
+			if shop_upgrades.has("farm") and shop_upgrades["farm"].has("rock"):
+				return clamp(int(shop_upgrades["farm"]["rock"]["level"]) + 1, 1, MAX_GATHER_LEVEL)
+			return 1
+		_:
+			return 1
+
+# Сколько ударов нужно для добычи при уровне 1..5 (1 удар = 1 взаимодействие)
+# Дерево: 5..1, Камень: 6..2 (на 1 удар больше дерева, минимум 2)
+func gather_hits_required(key: String, mining_level: int = -1) -> int:
+	var lvl := mining_level
+	if lvl < 0:
+		lvl = gather_level(key)
+
+	if key == "wood":
+		return clamp(6 - lvl, 1, 5)
+	if key == "rock":
+		return clamp(7 - lvl, 2, 6)
+	return 1

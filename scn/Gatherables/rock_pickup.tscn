@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://dncq3b45jpdk5"]
+
+[ext_resource type="Script" uid="uid://cdwhlhgr8yuwe" path="res://scn/Gatherables/resource_pickup.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://bvbwqxj8v0700" path="res://assets/shop/Rock_Icon.png" id="2_ft4xr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(10, 13)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 6.0
+
+[node name="RockPickup" type="CharacterBody2D"]
+collision_layer = 0
+script = ExtResource("1")
+resource_key = "rock"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_ft4xr")
+
+[node name="Detector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detector"]
+shape = SubResource("CircleShape2D_1")
+
+[connection signal="body_entered" from="Detector" to="." method="_on_detector_body_entered"]

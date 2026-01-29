@@ -23,7 +23,7 @@ const ICONS := {
 	# Продажа
 	"sell_rock": "res://assets/shop/Rock_Icon.png",
 	"sell_wood": "res://assets/shop/Wood_Icon.png",
-	"sell_food": "res://assets/shop/Regen_Icon.png", # временно
+	"sell_food": "res://assets/shop/Food_Icon.png",
 }
 
 var tex := {} # кэш Texture2D
@@ -92,8 +92,16 @@ func refresh() -> void:
 			var is_max := Global.upgrade_is_max(category, key)
 			var cost := Global.upgrade_cost(category, key)
 
-			n["level"].text = "Lvl: " + str(level) + (" (MAX)" if is_max else "")
-			n["next"].text = "Next: " + str(Global.upgrade_value_next(category, key))
+			var display_level := level
+			if category == "farm" and (key == "wood" or key == "rock"):
+				display_level = level + 1
+			n["level"].text = "Lvl: " + str(display_level) + (" (MAX)" if is_max else "")
+			if category == "farm" and (key == "wood" or key == "rock"):
+				var cur_lvl := level + 1
+				var next_lvl = min(cur_lvl + 1, Global.MAX_GATHER_LEVEL)
+				n["next"].text = "Hits: " + str(Global.gather_hits_required(key, cur_lvl)) + " -> " + str(Global.gather_hits_required(key, next_lvl))
+			else:
+				n["next"].text = "Next: " + str(Global.upgrade_value_next(category, key))
 			n["cost"].text = "Cost: " + ("-" if is_max else str(cost))
 
 			var enough_gold := Global.gold >= cost
