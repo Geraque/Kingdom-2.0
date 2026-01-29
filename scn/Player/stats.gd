@@ -59,7 +59,6 @@ func _ready() -> void:
 	health = max_health
 
 func _process(delta):
-	print(max_health)
 	stamina_bar.value = stamina
 	if stamina < max_stamina:
 		stamina += 10 * delta

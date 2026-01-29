@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://b3b244jv3ioaj" path="res://scn/mobs/enemy.tscn" id="1_e1e24"]
 [ext_resource type="Texture2D" uid="uid://qx327tle18ka" path="res://assets/Mushroom/Attack.png" id="1_q8lh6"]
 [ext_resource type="Texture2D" uid="uid://04s8i066tqgi" path="res://assets/Mushroom/Take Hit.png" id="2_4uj2h"]
-[ext_resource type="Script" uid="uid://c760kbpab1o7m" path="res://mushroom.gd" id="2_dppj6"]
+[ext_resource type="Script" uid="uid://c760kbpab1o7m" path="res://scn/mobs/mushroom.gd" id="2_dppj6"]
 [ext_resource type="Texture2D" uid="uid://bebmssh1o66gn" path="res://assets/Mushroom/Death.png" id="3_fnqdu"]
 [ext_resource type="Texture2D" uid="uid://cydyucai3ga6u" path="res://assets/Mushroom/Idle.png" id="4_jivlp"]
 [ext_resource type="Texture2D" uid="uid://btbnxegg4tsr" path="res://assets/Mushroom/Run.png" id="5_kcvxa"]
