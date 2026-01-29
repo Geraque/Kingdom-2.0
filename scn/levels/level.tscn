@@ -16,7 +16,7 @@
 [ext_resource type="AudioStream" uid="uid://fkk8mvwfpip2" path="res://assets/sound/music/cloud-of-sorrow-13984.mp3" id="14_gqwpf"]
 [ext_resource type="Script" uid="uid://w8y4m0xtx3w4" path="res://scn/Gatherables/resource_spawner.gd" id="15_w3gln"]
 [ext_resource type="PackedScene" uid="uid://lbjxmyf5bwrj" path="res://scn/Gatherables/tree.tscn" id="16_bobs2"]
-[ext_resource type="PackedScene" path="res://scn/Gatherables/rock.tscn" id="17_5rxg3"]
+[ext_resource type="PackedScene" uid="uid://d0haooy44u88" path="res://scn/Gatherables/rock.tscn" id="17_5rxg3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i2t4f"]
 texture = ExtResource("5_km5ld")
@@ -640,6 +640,7 @@ tilemap_path = NodePath("../../TileMap")
 container_path = NodePath("..")
 tree_scene = ExtResource("16_bobs2")
 rock_scene = ExtResource("17_5rxg3")
+avoid_shop_path = NodePath("../../Buildings/Shop")
 
 [connection signal="timeout" from="Light/DayNight" to="." method="_on_day_night_timeout"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Panel/VBoxContainer/Resume" to="Manager" method="_on_resume_pressed"]

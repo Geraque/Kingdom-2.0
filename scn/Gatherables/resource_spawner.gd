@@ -25,6 +25,11 @@ class_name ResourceSpawner
 # Ограничение попыток на один объект
 @export var attempts_per_item: int = 40
 
+# Запрет спавна рядом с магазином/зданиями.
+# Если путь не задан, будет выполнен автопоиск узла с именем "Shop" в текущей сцене.
+@export var avoid_shop_path: NodePath
+@export var avoid_shop_radius: float = 350.0
+
 var _last_spawned_day: int = 0
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
@@ -91,24 +96,49 @@ func _spawn_one(scene: PackedScene) -> void:
 
 		var p: Vector2 = _cell_to_spawn_pos(tm, cell, tile_size)
 
+		# Не спавнить рядом с магазином
+		if _is_in_shop_exclusion(p):
+			continue
+
 		if _too_close(container, p):
 			continue
 
 		var obj: Node = scene.instantiate()
 
-		# ВАЖНО: объект ещё не в дереве и не имеет родителя.
-		# Если присвоить global_position ДО add_child, позиция станет "локальной",
-		# а после добавления к контейнеру будет смещена трансформом контейнера.
-		# Поэтому выставляется локальная позиция относительно container (если это Node2D).
-		if obj is Node2D:
-			if container is Node2D:
-				(obj as Node2D).position = (container as Node2D).to_local(p)
-			else:
-				(obj as Node2D).global_position = p
-
-		# call_deferred безопаснее, если спавн идёт из сигналов/physics
-		container.call_deferred("add_child", obj)
+		# ВАЖНО: позиция выставляется после добавления в дерево,
+		# иначе при смещённом контейнере возможен сдвиг/"пропажа" спавна.
+		call_deferred("_add_spawned", container, obj, p)
 		return
+
+func _add_spawned(container: Node, obj: Node, p: Vector2) -> void:
+	if container == null or obj == null:
+		return
+	container.add_child(obj)
+	if obj is Node2D:
+		(obj as Node2D).global_position = p
+
+func _is_in_shop_exclusion(p: Vector2) -> bool:
+	if avoid_shop_radius <= 0.0:
+		return false
+	var shop: Node2D = _get_shop_node()
+	if shop == null:
+		return false
+	return shop.global_position.distance_to(p) <= avoid_shop_radius
+
+func _get_shop_node() -> Node2D:
+	if avoid_shop_path != NodePath():
+		var n: Node = get_node_or_null(avoid_shop_path)
+		if n is Node2D:
+			return n as Node2D
+
+	# Автопоиск по имени, чтобы не требовать настройки сцены
+	var cs: Node = get_tree().current_scene
+	if cs == null:
+		return null
+	var found: Node = cs.find_child("Shop", true, false)
+	if found is Node2D:
+		return found as Node2D
+	return null
 
 func _cell_to_spawn_pos(tm: TileMap, cell: Vector2i, tile_size: Vector2) -> Vector2:
 	# map_to_local даёт позицию клетки в локальных координатах TileMap (обычно центр клетки)
