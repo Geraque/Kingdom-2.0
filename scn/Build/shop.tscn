@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://kx4myet16l6b"]
+[gd_scene load_steps=24 format=3 uid="uid://kx4myet16l6b"]
 
 [ext_resource type="Script" uid="uid://bie5nws3bhu34" path="res://scn/Build/shop.gd" id="1_5wssj"]
 [ext_resource type="Texture2D" uid="uid://c6xrrom65yh1" path="res://assets/decorations/shop_anim.png" id="1_lpta5"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://e7lvrwut0k2h" path="res://scn/mobs/mob_health.gd" id="3_flke0"]
 [ext_resource type="Texture2D" uid="uid://b80xul0yexvsi" path="res://assets/sprites/mob_healt_empty.png" id="4_5wssj"]
 [ext_resource type="Texture2D" uid="uid://cspma3ro8d8uw" path="res://assets/sprites/mob_healt_progress.png" id="5_rm1y3"]
+[ext_resource type="AudioStream" uid="uid://cym4fu33agbhg" path="res://assets/sound/SFX/buildings/Torch Impact 1.wav" id="8_j1sm5"]
+[ext_resource type="AudioStream" uid="uid://dkl1pp5hcdqik" path="res://assets/sound/SFX/buildings/Torch Impact 2.wav" id="9_t4thx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o1aur"]
 size = Vector2(111, 125)
@@ -128,6 +130,11 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_flke0"]
 size = Vector2(130, 140)
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_rm1y3"]
+streams_count = 2
+stream_0/stream = ExtResource("8_j1sm5")
+stream_1/stream = ExtResource("9_t4thx")
+
 [node name="Shop" type="StaticBody2D"]
 collision_layer = 8
 collision_mask = 0
@@ -192,3 +199,7 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource("RectangleShape2D_flke0")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_rm1y3")
+volume_db = -15.0

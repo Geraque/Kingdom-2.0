@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ckk3cefxobee6"
+path="res://.godot/imported/Dirt Chain Run 2.wav-803c445bd59e66142c83bef9419945e2.sample"
+
+[deps]
+
+source_file="res://assets/sound/SFX/mushroom/Dirt Chain Run 2.wav"
+dest_files=["res://.godot/imported/Dirt Chain Run 2.wav-803c445bd59e66142c83bef9419945e2.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

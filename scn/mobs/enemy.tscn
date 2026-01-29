@@ -1,6 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3b244jv3ioaj"]
+[gd_scene load_steps=13 format=3 uid="uid://b3b244jv3ioaj"]
 
 [ext_resource type="Script" uid="uid://dwo4s3x4kucbe" path="res://scn/mobs/enemy.gd" id="1_8q0bw"]
+[ext_resource type="AudioStream" uid="uid://ca3sdycj6io8p" path="res://assets/sound/SFX/mushroom/Dirt Chain Run 1.wav" id="3_iuhtd"]
+[ext_resource type="AudioStream" uid="uid://ckk3cefxobee6" path="res://assets/sound/SFX/mushroom/Dirt Chain Run 2.wav" id="4_avu8v"]
+[ext_resource type="AudioStream" uid="uid://bik75g4xjo1xp" path="res://assets/sound/SFX/mushroom/Dirt Chain Run 3.wav" id="5_7lnoj"]
+[ext_resource type="AudioStream" uid="uid://dcfs2tgl08frl" path="res://assets/sound/SFX/mushroom/Dirt Chain Run 4.wav" id="6_5fbi7"]
+[ext_resource type="AudioStream" uid="uid://b06lndr2j8x2q" path="res://assets/sound/SFX/mushroom/Dirt Chain Run 5.wav" id="7_r50mb"]
 [ext_resource type="Script" uid="uid://ber6wi1p18d4r" path="res://scn/DamageBox/damage_box.gd" id="7_w57cd"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d1kao"]
@@ -13,6 +18,14 @@ radius = 9.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_d5str"]
 radius = 9.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_cska1"]
+streams_count = 5
+stream_0/stream = ExtResource("3_iuhtd")
+stream_1/stream = ExtResource("4_avu8v")
+stream_2/stream = ExtResource("5_7lnoj")
+stream_3/stream = ExtResource("6_5fbi7")
+stream_4/stream = ExtResource("7_r50mb")
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 4
@@ -56,6 +69,12 @@ disabled = true
 [node name="Run" type="Timer" parent="."]
 wait_time = 0.5
 autostart = true
+
+[node name="EnemySound" type="Node2D" parent="."]
+
+[node name="Run" type="AudioStreamPlayer2D" parent="EnemySound"]
+stream = SubResource("AudioStreamRandomizer_cska1")
+volume_db = -20.0
 
 [connection signal="body_entered" from="AttackDirection/AttackRange" to="." method="_on_attack_range_body_entered"]
 [connection signal="area_entered" from="AttackDirection/DamageBox/HitBox" to="." method="_on_hit_box_area_entered"]

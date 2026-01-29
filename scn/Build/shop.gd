@@ -4,6 +4,7 @@ extends StaticBody2D
 
 @onready var interact_area: Area2D = $InteractArea
 @onready var mob_health := $MobHealth
+@onready var audio_stream_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 var player_in_range := false
 var ui: CanvasLayer
@@ -44,6 +45,7 @@ func _on_interact_body_exited(body: Node2D) -> void:
 
 func take_damage(amount: int) -> void:
 	if mob_health != null and mob_health.has_method("apply_damage"):
+		audio_stream_player.play()
 		mob_health.call("apply_damage", amount)
 
 func _on_no_health() -> void:
