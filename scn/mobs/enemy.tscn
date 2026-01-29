@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://b3b244jv3ioaj"]
+
+[ext_resource type="Script" uid="uid://dwo4s3x4kucbe" path="res://scn/mobs/enemy.gd" id="1_8q0bw"]
+[ext_resource type="Script" uid="uid://ber6wi1p18d4r" path="res://scn/DamageBox/damage_box.gd" id="7_w57cd"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d1kao"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4uj2h"]
+size = Vector2(15, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yfo0v"]
+radius = 9.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_d5str"]
+radius = 8.0
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_8q0bw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_d1kao")
+
+[node name="AttackDirection" type="Node2D" parent="."]
+
+[node name="AttackRange" type="Area2D" parent="AttackDirection"]
+collision_layer = 0
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDirection/AttackRange"]
+position = Vector2(16.5, -1)
+shape = SubResource("RectangleShape2D_4uj2h")
+
+[node name="DamageBox" type="Node2D" parent="AttackDirection"]
+position = Vector2(0, -11)
+script = ExtResource("7_w57cd")
+
+[node name="HurtBox" type="Area2D" parent="AttackDirection/DamageBox"]
+collision_layer = 32
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDirection/DamageBox/HurtBox"]
+position = Vector2(1, 11)
+shape = SubResource("CircleShape2D_yfo0v")
+
+[node name="HitBox" type="Area2D" parent="AttackDirection/DamageBox"]
+position = Vector2(-5, 11)
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDirection/DamageBox/HitBox"]
+position = Vector2(22, 0)
+shape = SubResource("CircleShape2D_d5str")
+disabled = true
+
+[node name="Run" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="body_entered" from="AttackDirection/AttackRange" to="." method="_on_attack_range_body_entered"]
+[connection signal="area_entered" from="AttackDirection/DamageBox/HitBox" to="." method="_on_hit_box_area_entered"]
+[connection signal="timeout" from="Run" to="." method="_on_run_timeout"]

@@ -1,0 +1,194 @@
+[gd_scene load_steps=21 format=3 uid="uid://kx4myet16l6b"]
+
+[ext_resource type="Script" uid="uid://bie5nws3bhu34" path="res://scn/Build/shop.gd" id="1_5wssj"]
+[ext_resource type="Texture2D" uid="uid://c6xrrom65yh1" path="res://assets/decorations/shop_anim.png" id="1_lpta5"]
+[ext_resource type="PackedScene" uid="uid://d17g2achio2gi" path="res://scn/Light/lantern.tscn" id="2_o1aur"]
+[ext_resource type="PackedScene" uid="uid://vydjudnjhu3m" path="res://scn/UI/shop_ui.tscn" id="2_rm1y3"]
+[ext_resource type="Script" uid="uid://e7lvrwut0k2h" path="res://scn/mobs/mob_health.gd" id="3_flke0"]
+[ext_resource type="Texture2D" uid="uid://b80xul0yexvsi" path="res://assets/sprites/mob_healt_empty.png" id="4_5wssj"]
+[ext_resource type="Texture2D" uid="uid://cspma3ro8d8uw" path="res://assets/sprites/mob_healt_progress.png" id="5_rm1y3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o1aur"]
+size = Vector2(111, 125)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jxx1l"]
+radius = 86.00581
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vhfrg"]
+atlas = ExtResource("1_lpta5")
+region = Rect2(0, 0, 118, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ndq8e"]
+atlas = ExtResource("1_lpta5")
+region = Rect2(118, 0, 118, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_83exo"]
+atlas = ExtResource("1_lpta5")
+region = Rect2(236, 0, 118, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n27ny"]
+atlas = ExtResource("1_lpta5")
+region = Rect2(354, 0, 118, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6r1qa"]
+atlas = ExtResource("1_lpta5")
+region = Rect2(472, 0, 118, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fmvai"]
+atlas = ExtResource("1_lpta5")
+region = Rect2(590, 0, 118, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_khgxt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vhfrg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ndq8e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_83exo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n27ny")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6r1qa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fmvai")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_stxl3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DamageText:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-28, -36)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DamageText:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_deqo7"]
+resource_name = "damage_text"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DamageText:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-28, -36), Vector2(-28, -65)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DamageText:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_06w8o"]
+_data = {
+&"RESET": SubResource("Animation_stxl3"),
+&"damage_text": SubResource("Animation_deqo7")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_flke0"]
+size = Vector2(130, 140)
+
+[node name="Shop" type="StaticBody2D"]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_5wssj")
+shop_ui_scene = ExtResource("2_rm1y3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, 0.5)
+shape = SubResource("RectangleShape2D_o1aur")
+
+[node name="InteractArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
+shape = SubResource("CircleShape2D_jxx1l")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="InteractArea"]
+sprite_frames = SubResource("SpriteFrames_khgxt")
+autoplay = "default"
+frame_progress = 0.95131654
+
+[node name="Lantern" parent="InteractArea" instance=ExtResource("2_o1aur")]
+position = Vector2(-48, 35)
+
+[node name="Lantern2" parent="InteractArea" instance=ExtResource("2_o1aur")]
+position = Vector2(49, 35)
+
+[node name="MobHealth" type="Node2D" parent="."]
+position = Vector2(-4, -68)
+script = ExtResource("3_flke0")
+max_health = 1000
+
+[node name="HealthBar" type="TextureProgressBar" parent="MobHealth"]
+modulate = Color(1, 1, 1, 0.5137255)
+offset_left = -47.0
+offset_top = -8.0
+offset_right = 52.0
+offset_bottom = 8.0
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("4_5wssj")
+texture_progress = ExtResource("5_rm1y3")
+tint_progress = Color(1, 0.24313726, 0.16078432, 1)
+
+[node name="DamageText" type="Label" parent="MobHealth"]
+offset_left = -28.0
+offset_top = -36.0
+offset_right = 29.0
+offset_bottom = 33.0
+theme_override_colors/font_color = Color(1, 0.17254902, 0.06666667, 1)
+theme_override_font_sizes/font_size = 25
+text = "20"
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MobHealth"]
+libraries = {
+&"": SubResource("AnimationLibrary_06w8o")
+}
+
+[node name="HurtBox" type="Area2D" parent="." groups=["shop_hurtbox"]]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("RectangleShape2D_flke0")
