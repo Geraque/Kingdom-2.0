@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var mobs: Node2D = $".."
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var audio_stream_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 var spawn_count = 0
 
@@ -14,6 +15,7 @@ func _ready() -> void:
 	Signals.connect("day_time", Callable(self, "_on_time_changed"))
 
 func _on_time_changed(state, day_count):
+	audio_stream_player.play()
 	spawn_count = 0
 	var rng = randi_range(0, 2)
 	if state == 1:
@@ -26,6 +28,7 @@ func _on_time_changed(state, day_count):
 		animation_player.play("idle")
 	
 func enemy_spawn():
+	
 	var rng = randi_range(1,2)
 	if rng == 1:
 		mushroom_spawn()

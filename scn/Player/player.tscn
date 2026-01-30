@@ -1,10 +1,11 @@
-[gd_scene load_steps=130 format=3 uid="uid://bnji46sagk2v7"]
+[gd_scene load_steps=131 format=3 uid="uid://bnji46sagk2v7"]
 
 [ext_resource type="Script" uid="uid://dxlkafcdh4qnc" path="res://scn/Player/player.gd" id="1_4ntmi"]
 [ext_resource type="Texture2D" uid="uid://6nlsn7jx0wre" path="res://assets/character/char_blue.png" id="1_l8h54"]
 [ext_resource type="Texture2D" uid="uid://dge0u0n5ik2lp" path="res://assets/character/char_blue_1.png" id="2_gwnis"]
 [ext_resource type="Texture2D" uid="uid://0dutegqtnqlf" path="res://assets/character/char_blue_2.png" id="3_k53q1"]
 [ext_resource type="Script" uid="uid://ber6wi1p18d4r" path="res://scn/DamageBox/damage_box.gd" id="6_hlrar"]
+[ext_resource type="FontFile" uid="uid://cycahm0j6ysgl" path="res://assets/PixelOperator8.ttf" id="7_dgot3"]
 [ext_resource type="PackedScene" uid="uid://cviry4px18k7b" path="res://scn/Player/stats.tscn" id="7_ejjyh"]
 [ext_resource type="PackedScene" uid="uid://cy4fg5e53n4to" path="res://scn/UI/resources.tscn" id="8_3ucvd"]
 [ext_resource type="PackedScene" uid="uid://d17g2achio2gi" path="res://scn/Light/lantern.tscn" id="8_13uxq"]
@@ -1305,7 +1306,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_3ucvd"]
 resource_name = "damage_received"
-length = 0.4
+length = 0.7
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1313,7 +1314,7 @@ tracks/0/path = NodePath("HealthText:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.30003694),
+"times": PackedFloat32Array(0, 0.7),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(-20, -43), Vector2(-19, -60)]
@@ -1325,10 +1326,10 @@ tracks/1/path = NodePath("HealthText:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.15001847, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.15001847, 0.3, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Color(0.928863, 0.30693862, 0.38305706, 0.79607844), Color(0.92941177, 0.30588236, 0.38431373, 0.79607844), Color(1, 1, 1, 0)]
+"values": [Color(0.928863, 0.30693862, 0.38305706, 0.79607844), Color(0.92941177, 0.30588236, 0.38431373, 0.79607844), Color(0.92941177, 0.30588236, 0.38431373, 0.79607844), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_ejjyh"]
@@ -1478,6 +1479,7 @@ offset_left = -20.0
 offset_top = -43.0
 offset_right = 20.0
 offset_bottom = -20.0
+theme_override_fonts/font = ExtResource("7_dgot3")
 theme_override_font_sizes/font_size = 8
 text = "20"
 horizontal_alignment = 1

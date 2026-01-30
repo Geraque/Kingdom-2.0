@@ -1,5 +1,7 @@
 extends Enemy
 
+func _ready() -> void:
+	damage = 15
 
 func _on_mob_health_no_health() -> void:
 	Signals.emit_signal("enemy_died", position, state)

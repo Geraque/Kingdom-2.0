@@ -666,7 +666,7 @@ autoplay = "Idle"
 [node name="MobHealth" parent="." index="5" instance=ExtResource("8_ad1b2")]
 position = Vector2(0, -25)
 scale = Vector2(0.25, 0.25)
-max_health = 20
+max_health = 30
 
 [node name="Sound" type="Node2D" parent="." index="6"]
 

@@ -1,8 +1,36 @@
-[gd_scene load_steps=7 format=3 uid="uid://wuxg4cx4j7vt"]
+[gd_scene load_steps=8 format=3 uid="uid://wuxg4cx4j7vt"]
 
 [ext_resource type="Script" uid="uid://e7lvrwut0k2h" path="res://scn/mobs/mob_health.gd" id="1_deqo7"]
 [ext_resource type="Texture2D" uid="uid://b80xul0yexvsi" path="res://assets/sprites/mob_healt_empty.png" id="1_hyq7h"]
 [ext_resource type="Texture2D" uid="uid://cspma3ro8d8uw" path="res://assets/sprites/mob_healt_progress.png" id="2_deqo7"]
+[ext_resource type="FontFile" uid="uid://cycahm0j6ysgl" path="res://assets/PixelOperator8.ttf" id="4_stxl3"]
+
+[sub_resource type="Animation" id="Animation_stxl3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DamageText:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-28, -36)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DamageText:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_deqo7"]
 resource_name = "damage_text"
@@ -32,33 +60,6 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_stxl3"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("DamageText:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-28, -36)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("DamageText:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_06w8o"]
 _data = {
 &"RESET": SubResource("Animation_stxl3"),
@@ -86,6 +87,7 @@ offset_top = -36.0
 offset_right = 29.0
 offset_bottom = 33.0
 theme_override_colors/font_color = Color(1, 0.17254902, 0.06666667, 1)
+theme_override_fonts/font = ExtResource("4_stxl3")
 theme_override_font_sizes/font_size = 25
 text = "20"
 horizontal_alignment = 1

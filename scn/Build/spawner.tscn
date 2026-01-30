@@ -1,7 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://dhndr6h1q3tt1"]
+[gd_scene load_steps=23 format=3 uid="uid://dhndr6h1q3tt1"]
 
 [ext_resource type="Script" uid="uid://drblc57w4nkgv" path="res://scn/Build/spawner.gd" id="1_3km1i"]
 [ext_resource type="Texture2D" uid="uid://bn0qsep8lnsp7" path="res://assets/spawner/Obelisk.png" id="1_jfdh8"]
+[ext_resource type="AudioStream" uid="uid://bmkykk2kkrras" path="res://assets/sound/SFX/buildings/attack.wav" id="3_hffqe"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3km1i"]
 atlas = ExtResource("1_jfdh8")
@@ -210,3 +211,7 @@ frame = 12
 libraries = {
 &"": SubResource("AnimationLibrary_c562s")
 }
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_hffqe")
+volume_db = 8.0
