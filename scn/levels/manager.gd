@@ -64,6 +64,7 @@ func save_game() -> void:
 	if file == null:
 		return
 
+#	КОЛИЧЕСТВО ХП МАГАЗИНА и КОЛИЧЕСТВО дней
 	var data: Dictionary = {
 		"gold": Global.gold,
 		"rock": Global.rock,

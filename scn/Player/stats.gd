@@ -70,7 +70,7 @@ func stamina_consumprion():
 func _on_health_regen_timeout() -> void:
 	health += regen_amount
 
-func _on_upgrade_changed(category: String, key: String) -> void:
+func _on_upgrade_changed(category: String, _key: String) -> void:
 	# Применяются только апгрейды персонажа
 	if category != "char":
 		return

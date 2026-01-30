@@ -94,7 +94,7 @@ func recover_state():
 	
 func _on_hit_box_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_hurtbox"):
-		Signals.emit_signal("enemy_attack", damage)
+		Signals.emit_signal("enemy_attack", damage, sprite.flip_h)
 		return
 
 	if area.is_in_group("shop_hurtbox"):

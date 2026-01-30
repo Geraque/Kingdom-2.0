@@ -173,7 +173,7 @@ func damage_state():
 	await animPlayer.animation_finished
 	state = MOVE
 	
-func _on_damage_received(enemy_damage):
+func _on_damage_received(enemy_damage, flip_h):
 	smack.play()
 	if state == BLOCK:
 		enemy_damage /= 2
@@ -181,7 +181,7 @@ func _on_damage_received(enemy_damage):
 		enemy_damage = 0
 	else:
 		state = DAMAGE
-		damage_anim()
+		damage_anim(flip_h)
 	stats.health -= enemy_damage
 	if stats.health <= 0:
 		stats.health = 0
@@ -195,11 +195,14 @@ func _on_stats_no_stamina() -> void:
 	await get_tree().create_timer(2).timeout
 	recovery = false
 
-func damage_anim():
+func damage_anim(flip_h):
 	animatedSprite.modulate = Color(1,0,0,1)
-	if animatedSprite.flip_h:
+	print(flip_h)
+	if !flip_h:
+		print(1)
 		velocity.x = 200
 	else:
+		print(2)
 		velocity.x = -200
 	var tween = get_tree().create_tween()
 	tween.parallel().tween_property(self, "velocity", Vector2.ZERO, 0.1)
