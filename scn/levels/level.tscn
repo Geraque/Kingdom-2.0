@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://5c08jinfqjuh"]
+[gd_scene load_steps=27 format=3 uid="uid://5c08jinfqjuh"]
 
 [ext_resource type="Script" uid="uid://rtfi3xmxmu7y" path="res://scn/levels/level.gd" id="1_n6hdu"]
 [ext_resource type="PackedScene" uid="uid://bnji46sagk2v7" path="res://scn/Player/player.tscn" id="1_u52ul"]
@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://lbjxmyf5bwrj" path="res://scn/Gatherables/tree.tscn" id="16_bobs2"]
 [ext_resource type="PackedScene" uid="uid://d0haooy44u88" path="res://scn/Gatherables/rock.tscn" id="17_5rxg3"]
 [ext_resource type="Script" uid="uid://68fmqjqhi22e" path="res://scn/levels/label.gd" id="18_5rxg3"]
+[ext_resource type="PackedScene" uid="uid://ceqn0plbrvee4" path="res://scn/Light/sign.tscn" id="19_h5c3s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i2t4f"]
 texture = ExtResource("5_km5ld")
@@ -556,6 +557,14 @@ texture = ExtResource("7_ate5b")
 [node name="Lantern" parent="Buildings/Lamp" instance=ExtResource("8_gqwpf")]
 position = Vector2(-6, -7)
 
+[node name="Lamp2" type="Sprite2D" parent="Buildings"]
+position = Vector2(157, 537)
+texture = ExtResource("7_ate5b")
+flip_h = true
+
+[node name="Lantern" parent="Buildings/Lamp2" instance=ExtResource("8_gqwpf")]
+position = Vector2(-6, -7)
+
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2(13, 6)
 tile_set = SubResource("TileSet_8cye3")
@@ -645,9 +654,9 @@ tree_scene = ExtResource("16_bobs2")
 rock_scene = ExtResource("17_5rxg3")
 avoid_shop_path = NodePath("../../Buildings/Shop")
 
-[node name="GUIDE" type="Node2D" parent="."]
+[node name="Signs" type="Node2D" parent="."]
 
-[node name="Label" type="Label" parent="GUIDE"]
+[node name="GuideText" type="Label" parent="Signs"]
 offset_left = 211.0
 offset_top = 404.0
 offset_right = 361.0
@@ -658,6 +667,24 @@ Ctrl - Бег
 S - Блок/Уворот
 E - Интерактировать"
 script = ExtResource("18_5rxg3")
+
+[node name="GuideSign" parent="Signs" instance=ExtResource("19_h5c3s")]
+position = Vector2(268, 547)
+text = "A/D - Ходьба
+W/SPACE - Удар
+Ctrl - Бег
+S - Блок/Уворот
+E - Интерактировать"
+
+[node name="LeftSideSign" parent="Signs" instance=ExtResource("19_h5c3s")]
+position = Vector2(-2254, 551)
+text = ""
+video = true
+
+[node name="RightSideSign" parent="Signs" instance=ExtResource("19_h5c3s")]
+position = Vector2(3310, 554)
+text = ""
+video = true
 
 [connection signal="timeout" from="Light/DayNight" to="." method="_on_day_night_timeout"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Panel/VBoxContainer/Resume" to="Manager" method="_on_resume_pressed"]

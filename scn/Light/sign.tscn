@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://ceqn0plbrvee4"]
+
+[ext_resource type="Texture2D" uid="uid://bg7u2i3y6cggw" path="res://assets/decorations/sign.png" id="1_e1xjj"]
+[ext_resource type="Script" uid="uid://db1ml7hu1hdfk" path="res://scn/Light/sign.gd" id="1_vib2h"]
+[ext_resource type="Script" uid="uid://68fmqjqhi22e" path="res://scn/levels/label.gd" id="3_ue2mv"]
+[ext_resource type="VideoStream" uid="uid://7q1hyhl3isj6" path="res://assets/video/you-think.ogv" id="4_o7rbu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vib2h"]
+size = Vector2(30, 33)
+
+[node name="Sign" type="StaticBody2D"]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_vib2h")
+
+[node name="InteractArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_vib2h")
+
+[node name="Sprite2D" type="Sprite2D" parent="InteractArea"]
+texture = ExtResource("1_e1xjj")
+
+[node name="Text" type="Label" parent="InteractArea"]
+offset_left = -57.0
+offset_top = -143.0
+offset_right = 93.0
+offset_bottom = -16.0
+theme_override_font_sizes/font_size = 16
+text = "A/D - Ходьба
+W/SPACE - Удар
+Ctrl - Бег
+S - Блок/Уворот
+E - Интерактировать"
+script = ExtResource("3_ue2mv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_vib2h")
+
+[node name="Video" type="Node2D" parent="."]
+position = Vector2(-52, -670)
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Video"]
+offset_left = 4.0
+offset_top = 593.0
+offset_right = 644.0
+offset_bottom = 953.0
+scale = Vector2(0.15, 0.15)
+stream = ExtResource("4_o7rbu")
+
+[node name="Camera2D" type="Camera2D" parent="Video"]
+position = Vector2(581, 324)
+scale = Vector2(0.63590574, 1.5617367)

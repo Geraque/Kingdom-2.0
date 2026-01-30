@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3ke1nlhot1dd"]
+
+[ext_resource type="VideoStream" uid="uid://7q1hyhl3isj6" path="res://assets/video/you-think.ogv" id="1_v0q0y"]
+
+[node name="Video" type="Node2D"]
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+offset_left = 4.0
+offset_top = 593.0
+offset_right = 644.0
+offset_bottom = 953.0
+scale = Vector2(0.15, 0.15)
+stream = ExtResource("1_v0q0y")
+autoplay = true
+loop = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(581, 324)
+scale = Vector2(0.63590574, 1.5617367)
