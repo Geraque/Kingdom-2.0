@@ -17,10 +17,12 @@ var run_cost = 0.3
 # Базовые значения (без магазина)
 const BASE_MAX_HEALTH := 120.0
 const BASE_MAX_STAMINA := 100.0
+const BASE_STAMINA_REGEN := 10.0
 const BASE_REGEN_AMOUNT := 1.0
 
 var max_health: float = BASE_MAX_HEALTH
 var max_stamina: float = BASE_MAX_STAMINA
+var stamina_regen: float = BASE_STAMINA_REGEN
 var regen_amount: float = BASE_REGEN_AMOUNT
 
 var old_health: float = BASE_MAX_HEALTH
@@ -61,7 +63,7 @@ func _ready() -> void:
 func _process(delta):
 	stamina_bar.value = stamina
 	if stamina < max_stamina:
-		stamina += 10 * delta
+		stamina += stamina_regen * delta
 	
 func stamina_consumprion():
 	stamina -= stamina_cost
@@ -82,6 +84,7 @@ func _apply_shop_upgrades(reset_health: bool) -> void:
 
 	max_health = BASE_MAX_HEALTH + float(Global.char_hp_bonus())
 	max_stamina = BASE_MAX_STAMINA + float(Global.char_stamina_bonus())
+	stamina_regen = BASE_STAMINA_REGEN + float(Global.char_stamina_regen_bonus())
 	regen_amount = BASE_REGEN_AMOUNT + float(Global.char_regen_bonus())
 
 	# Обновление прогрессбаров

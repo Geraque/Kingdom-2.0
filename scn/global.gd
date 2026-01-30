@@ -17,6 +17,7 @@ var shop_upgrades := {
 	"char": {
 		"damage":  {"title": "+Урон",       "level": 0, "max": 7, "base_cost": 25, "cost_mult": 1.45, "base_buff": 2,  "buff_step": 2},
 		"stamina": {"title": "+Стамина",    "level": 0, "max": 7, "base_cost": 20, "cost_mult": 1.40, "base_buff": 5,  "buff_step": 5},
+		"stamina_regen": {"title": "+Стамина реген",    "level": 0, "max": 7, "base_cost": 20, "cost_mult": 1.40, "base_buff": 5,  "buff_step": 5},
 		"hp":      {"title": "+HP",         "level": 0, "max": 7, "base_cost": 30, "cost_mult": 1.50, "base_buff": 10, "buff_step": 10},
 		"regen":   {"title": "+HP реген",   "level": 0, "max": 7, "base_cost": 18, "cost_mult": 1.35, "base_buff": 1,  "buff_step": 1},
 	},
@@ -76,6 +77,9 @@ func char_damage_bonus() -> float:
 
 func char_stamina_bonus() -> float:
 	return upgrade_value_current("char", "stamina")
+	
+func char_stamina_regen_bonus() -> float:
+	return upgrade_value_current("char", "stamina_regen")
 
 func char_hp_bonus() -> float:
 	return upgrade_value_current("char", "hp")

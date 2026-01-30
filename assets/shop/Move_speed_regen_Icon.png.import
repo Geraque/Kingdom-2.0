@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpvrrlwgrovdf"
-path="res://.godot/imported/Attack_speed_Icon.png-cff61cc943a49051b096eb4d72b26bf2.ctex"
+uid="uid://q2lcqh3n3rh4"
+path="res://.godot/imported/Move_speed_regen_Icon.png-2022285d22d551572cd88106418dd15c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/shop/Attack_speed_Icon.png"
-dest_files=["res://.godot/imported/Attack_speed_Icon.png-cff61cc943a49051b096eb4d72b26bf2.ctex"]
+source_file="res://assets/shop/Move_speed_regen_Icon.png"
+dest_files=["res://.godot/imported/Move_speed_regen_Icon.png-2022285d22d551572cd88106418dd15c.ctex"]
 
 [params]
 

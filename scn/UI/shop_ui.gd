@@ -12,6 +12,7 @@ const ICONS := {
 	# Персонаж
 	"char_damage": "res://assets/shop/Attack_Icon.png",
 	"char_stamina": "res://assets/shop/Move_speed_Icon.png",
+	"char_stamina_regen": "res://assets/shop/Move_speed_regen_Icon.png",
 	"char_cd": "res://assets/shop/Health_Icon.png",
 	"char_regen": "res://assets/shop/Regen_Icon.png",
 
@@ -43,7 +44,7 @@ func _ready() -> void:
 		tabs.set_tab_title(1, "Фарм")
 		tabs.set_tab_title(2, "Продажа")
 
-	_build_buy_tab("char", 0, ["damage", "stamina", "hp", "regen"])
+	_build_buy_tab("char", 0, ["damage", "stamina", "stamina_regen", "hp", "regen"])
 	_build_buy_tab("farm", 1, ["rock", "wood", "mobs"])
 	_build_sell_tab(2, ["rock", "wood", "food"])
 
@@ -191,6 +192,7 @@ func _build_buy_tab(category: String, tab_index: int, ordered_keys: Array) -> vo
 		if category == "char":
 			if key == "damage": icon_key = "char_damage"
 			elif key == "stamina": icon_key = "char_stamina"
+			elif key == "stamina_regen": icon_key = "char_stamina_regen"
 			elif key == "hp": icon_key = "char_cd" # иконка остаётся прежней
 			elif key == "regen": icon_key = "char_regen"
 		elif category == "farm":
