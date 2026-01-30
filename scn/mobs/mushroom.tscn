@@ -1,12 +1,12 @@
 [gd_scene load_steps=56 format=3 uid="uid://dtpihc2c0iaac"]
 
 [ext_resource type="PackedScene" uid="uid://b3b244jv3ioaj" path="res://scn/mobs/enemy.tscn" id="1_e1e24"]
-[ext_resource type="Texture2D" uid="uid://qx327tle18ka" path="res://assets/Mushroom/Attack.png" id="1_q8lh6"]
-[ext_resource type="Texture2D" uid="uid://04s8i066tqgi" path="res://assets/Mushroom/Take Hit.png" id="2_4uj2h"]
+[ext_resource type="Texture2D" path="res://assets/Mushroom/Attack.png" id="1_q8lh6"]
+[ext_resource type="Texture2D" path="res://assets/Mushroom/Take Hit.png" id="2_4uj2h"]
 [ext_resource type="Script" uid="uid://c760kbpab1o7m" path="res://scn/mobs/mushroom.gd" id="2_dppj6"]
-[ext_resource type="Texture2D" uid="uid://bebmssh1o66gn" path="res://assets/Mushroom/Death.png" id="3_fnqdu"]
-[ext_resource type="Texture2D" uid="uid://cydyucai3ga6u" path="res://assets/Mushroom/Idle.png" id="4_jivlp"]
-[ext_resource type="Texture2D" uid="uid://btbnxegg4tsr" path="res://assets/Mushroom/Run.png" id="5_kcvxa"]
+[ext_resource type="Texture2D" path="res://assets/Mushroom/Death.png" id="3_fnqdu"]
+[ext_resource type="Texture2D" path="res://assets/Mushroom/Idle.png" id="4_jivlp"]
+[ext_resource type="Texture2D" path="res://assets/Mushroom/Run.png" id="5_kcvxa"]
 [ext_resource type="PackedScene" uid="uid://wuxg4cx4j7vt" path="res://scn/mobs/mob_health.tscn" id="8_jivlp"]
 [ext_resource type="AudioStream" uid="uid://6uok4o0y6xn0" path="res://assets/sound/SFX/mushroom/1014.MP3" id="9_r7453"]
 [ext_resource type="AudioStream" uid="uid://cnyqnv8b65qlm" path="res://assets/sound/SFX/mushroom/1014(4).MP3" id="10_3a4uy"]
@@ -380,7 +380,7 @@ tracks/4/path = NodePath("Sound/Hurt:playing")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.3),
+"times": PackedFloat32Array(0.2),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
@@ -680,7 +680,7 @@ script = ExtResource("2_dppj6")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="3"]
 position = Vector2(0, -11)
 sprite_frames = SubResource("SpriteFrames_r7453")
-animation = &"Run"
+animation = &"Damage"
 autoplay = "Idle"
 frame = 3
 

@@ -197,12 +197,9 @@ func _on_stats_no_stamina() -> void:
 
 func damage_anim(flip_h):
 	animatedSprite.modulate = Color(1,0,0,1)
-	print(flip_h)
 	if !flip_h:
-		print(1)
 		velocity.x = 200
 	else:
-		print(2)
 		velocity.x = -200
 	var tween = get_tree().create_tween()
 	tween.parallel().tween_property(self, "velocity", Vector2.ZERO, 0.1)

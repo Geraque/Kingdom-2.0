@@ -8,6 +8,8 @@ var spawn_count = 0
 var mushroom_preload = preload("res://scn/mobs/mushroom.tscn")
 var skeleton_preload = preload("res://scn/mobs/skeleton.tscn")
 
+
+
 func _ready() -> void:
 	Signals.connect("day_time", Callable(self, "_on_time_changed"))
 

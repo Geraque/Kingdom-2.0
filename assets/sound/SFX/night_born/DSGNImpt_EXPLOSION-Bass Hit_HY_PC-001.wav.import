@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://wv88orvydkw1"
+path="res://.godot/imported/DSGNImpt_EXPLOSION-Bass Hit_HY_PC-001.wav-5fb1cf93ed4d7ee3fe281b5832be2ac1.sample"
+
+[deps]
+
+source_file="res://assets/sound/SFX/night_born/DSGNImpt_EXPLOSION-Bass Hit_HY_PC-001.wav"
+dest_files=["res://.godot/imported/DSGNImpt_EXPLOSION-Bass Hit_HY_PC-001.wav-5fb1cf93ed4d7ee3fe281b5832be2ac1.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
