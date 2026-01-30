@@ -2,6 +2,8 @@ extends Node
 
 @onready var pause_menu: Control = $"../CanvasLayer/PauseMenu"
 @onready var player: CharacterBody2D = $"../Player/Player"
+@onready var level: Node2D = $".."
+
 
 var game_paused: bool = false
 var _pause_reasons: Dictionary = {} # reason -> true
@@ -71,7 +73,8 @@ func save_game() -> void:
 		"wood": Global.wood,
 		"food": Global.food,
 		"shop_upgrades": Global.shop_upgrades, # если требуется сохранять апгрейды
-		"player_pos": player.global_position
+		"player_pos": player.global_position,
+		"day_count": level.day_count
 	}
 
 	file.store_var(data)
@@ -103,6 +106,7 @@ func load_game() -> void:
 		if typeof(pos) == TYPE_VECTOR2:
 			player.global_position = pos
 
+		level.day_count = int(data.get("day_count", level.day_count))
 		return
 
 	# Старый формат (если раньше сохранялось по одному значению)

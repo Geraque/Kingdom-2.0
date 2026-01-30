@@ -15,10 +15,10 @@ func _ready() -> void:
 	Signals.connect("day_time", Callable(self, "_on_time_changed"))
 
 func _on_time_changed(state, day_count):
-	audio_stream_player.play()
 	spawn_count = 0
 	var rng = randi_range(0, 2)
-	if state == 1:
+	if state == 3:
+		audio_stream_player.play()
 		for i in (day_count + rng):
 			animation_player.play("spawn")
 			await animation_player.animation_finished
