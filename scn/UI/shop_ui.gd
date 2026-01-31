@@ -32,6 +32,14 @@ var tex := {} # кэш Texture2D
 var rows_buy := {}   # rows_buy[category][key] = {level, next, cost, btn}
 var rows_sell := {}  # rows_sell[key] = {qty, price, btn1, btnall}
 
+func _display_resource_name(key: String) -> String:
+	if key == "rock":
+		return "Камень"
+	if key == "wood":
+		return "Дерево"
+	return key
+
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	root.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -261,7 +269,7 @@ func _build_sell_tab(tab_index: int, ordered_keys: Array) -> void:
 
 		# Название
 		var name_l := Label.new()
-		name_l.text = key
+		name_l.text = _display_resource_name(key)
 		name_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 		var qty_l := Label.new()
