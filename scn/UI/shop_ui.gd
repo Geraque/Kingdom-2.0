@@ -43,6 +43,13 @@ const CASINO_COST := 50
 const CASINO_SPIN_ITEMS := 36
 const CASINO_RESULT_INDEX_FROM_END := 8
 
+# Базовые значения статов персонажа (без апгрейдов магазина).
+# Дублируются из stats.gd исключительно для корректного отображения в магазине.
+const BASE_MAX_HEALTH := 120.0
+const BASE_MAX_STAMINA := 100.0
+const BASE_STAMINA_REGEN := 10.0
+const BASE_REGEN_AMOUNT := 1.0
+
 var worm_texture_path := "res://assets/shop/Worm.png"
 
 var casino_is_spinning := false
@@ -129,9 +136,12 @@ func refresh() -> void:
 			if category == "farm" and (key == "wood" or key == "rock"):
 				var cur_lvl := level + 1
 				var next_lvl = min(cur_lvl + 1, Global.MAX_GATHER_LEVEL)
-				n["next"].text = "Hits: " + str(Global.gather_hits_required(key, cur_lvl)) + " -> " + str(Global.gather_hits_required(key, next_lvl))
+				if is_max:
+					n["next"].text = "Hits: " + str(Global.gather_hits_required(key, cur_lvl)) + " (MAX)"
+				else:
+					n["next"].text = "Hits: " + str(Global.gather_hits_required(key, cur_lvl)) + " -> " + str(Global.gather_hits_required(key, next_lvl))
 			else:
-				n["next"].text = "Next: " + str(Global.upgrade_value_next(category, key))
+				n["next"].text = _build_next_text(category, key, is_max)
 			n["cost"].text = "Cost: " + ("-" if is_max else str(cost))
 
 			var enough_gold := Global.gold >= cost
@@ -200,6 +210,47 @@ func _make_spin_icon(t: Texture2D, size := 64) -> TextureRect:
 	textureRect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	textureRect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	return textureRect
+
+
+func _fmt_num(v: float) -> String:
+	# Красивый вывод: 12 вместо 12.0
+	# В Godot 4.x round() возвращает Variant (может вызывать предупреждение при строгих настройках).
+	# Для чисел используем roundf(), который типизирован как float.
+	var r: float = roundf(v)
+	if is_equal_approx(v, r):
+		return str(int(r))
+	# 1 знак после запятой обычно достаточно для регена/стамины
+	return ("%.1f" % v)
+
+
+func _char_base_value(key: String) -> float:
+	match key:
+		"damage": return float(Global.damage_basic)
+		"hp": return BASE_MAX_HEALTH
+		"stamina": return BASE_MAX_STAMINA
+		"stamina_regen": return BASE_STAMINA_REGEN
+		"regen": return BASE_REGEN_AMOUNT
+		_: return 0.0
+
+
+func _char_total_current(key: String) -> float:
+	return _char_base_value(key) + float(Global.upgrade_value_current("char", key))
+
+
+func _char_total_next(key: String) -> float:
+	return _char_base_value(key) + float(Global.upgrade_value_next("char", key))
+
+
+func _build_next_text(category: String, key: String, is_max: bool) -> String:
+	# В магазине важно показывать «сколько сейчас» и «сколько будет».
+	if category == "char":
+		var cur_total := _char_total_current(key)
+		if is_max:
+			return "Now: " + _fmt_num(cur_total) + " (MAX)"
+		var next_total := _char_total_next(key)
+		return "Now: " + _fmt_num(cur_total) + " -> " + _fmt_num(next_total)
+	# Фоллбек для других категорий
+	return "Next: " + str(Global.upgrade_value_next(category, key))
 
 func _icon_key_for_upgrade(category: String, key: String) -> String:
 	if category == "char":
@@ -455,7 +506,13 @@ func _build_buy_tab(category: String, tab_index: int, ordered_keys: Array) -> vo
 		level_l.text = "Lvl: 0"
 
 		var next_l := Label.new()
-		next_l.text = "Next: " + str(Global.upgrade_value_next(category, key))
+		var is_max := Global.upgrade_is_max(category, key)
+		if category == "farm" and (key == "wood" or key == "rock"):
+			var cur_lvl := int(u["level"]) + 1
+			var next_lvl: int = mini(cur_lvl + 1, Global.MAX_GATHER_LEVEL)
+			next_l.text = "Hits: " + str(Global.gather_hits_required(key, cur_lvl)) + (" (MAX)" if is_max else " -> " + str(Global.gather_hits_required(key, next_lvl)))
+		else:
+			next_l.text = _build_next_text(category, key, is_max)
 
 		var cost_l := Label.new()
 		cost_l.text = str(Global.upgrade_cost(category, key))
