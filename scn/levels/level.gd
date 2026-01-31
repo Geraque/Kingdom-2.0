@@ -91,36 +91,48 @@ func set_day_text():
 
 func _setup_victory_tracking() -> void:
 	var destroyed := 0
-	
+
 	for p in SPAWNER_PATHS:
 		var sp: Node = get_node_or_null(p)
 		if sp == null:
 			destroyed += 1
-			continue
-		
-		# Если спавнер будет уничтожен (queue_free), этот сигнал сработает.
-		sp.connect("tree_exited", Callable(self, "_on_spawner_gone"), CONNECT_ONE_SHOT)
-	
+
 	_spawners_left_to_break = maxi(0, 2 - destroyed)
-	
+
+	# Победа считается только по факту уничтожения спавнера (сигнал spawner_destroyed),
+	# чтобы выход узлов из дерева при смене сцены (например, при смерти игрока) не считался "разрушением".
+	if Signals.has_signal("spawner_destroyed"):
+		var cb := Callable(self, "_on_spawner_destroyed")
+		if not Signals.is_connected("spawner_destroyed", cb):
+			Signals.connect("spawner_destroyed", cb)
+
 	if _spawners_left_to_break == 0:
 		call_deferred("_show_victory")
 
-func _on_spawner_gone() -> void:
+
+func _on_spawner_destroyed(_spawner_position: Vector2, _multiplier: int) -> void:
 	if _victory_shown:
 		return
-	
+
 	_spawners_left_to_break = maxi(0, _spawners_left_to_break - 1)
 	if _spawners_left_to_break == 0:
 		call_deferred("_show_victory")
 
+
 func _show_victory() -> void:
+	# Если узел уже выгружается (например, при смерти игрока и смене сцены) — победа не показывается.
+	if not is_inside_tree():
+		return
+	var tree := get_tree()
+	if tree == null:
+		return
+
 	if _victory_shown:
 		return
 	_victory_shown = true
-	
+
 	# Останавливается геймплей, UI показывается поверх.
-	get_tree().paused = true
+	tree.paused = true
 	
 	# UI создаётся кодом, чтобы не требовать правки .tscn.
 	var canvas := CanvasLayer.new()

@@ -5,7 +5,7 @@ signal upgrade_changed(category: String, key: String)
 var player_pos
 var player_damage
 var damage_basic := 10
-var gold := 70
+var gold := 60
 
 # Казик
 var casino_worm_obtained := false
@@ -18,25 +18,25 @@ var wood := 0
 var shop_upgrades := {
 	"char": {
 		# Бой
-		"damage":  {"title": "+Урон",            "level": 0, "max": 7, "base_cost": 35, "cost_mult": 1.25, "base_buff": 2,  "buff_step": 2},
-		"hp":      {"title": "+HP",              "level": 0, "max": 7, "base_cost": 35, "cost_mult": 1.20, "base_buff": 10, "buff_step": 10},
-		"regen":   {"title": "+HP реген",        "level": 0, "max": 7, "base_cost": 30, "cost_mult": 1.25, "base_buff": 1,  "buff_step": 1},
+		"damage":  {"title": "+Урон",            "level": 0, "max": 7, "base_cost": 25, "cost_mult": 1.25, "base_buff": 2,  "buff_step": 2},
+		"hp":      {"title": "+HP",              "level": 0, "max": 7, "base_cost": 25, "cost_mult": 1.20, "base_buff": 10, "buff_step": 10},
+		"regen":   {"title": "+HP реген",        "level": 0, "max": 7, "base_cost": 20, "cost_mult": 1.25, "base_buff": 1,  "buff_step": 1},
 
 		# Выносливость
-		"stamina":       {"title": "+Стамина",       "level": 0, "max": 7, "base_cost": 25, "cost_mult": 1.2, "base_buff": 5,  "buff_step": 5},
-		"stamina_regen": {"title": "+Стамина реген", "level": 0, "max": 7, "base_cost": 30, "cost_mult": 1.25, "base_buff": 2,  "buff_step": 2},
+		"stamina":       {"title": "+Стамина",       "level": 0, "max": 7, "base_cost": 15, "cost_mult": 1.2, "base_buff": 5,  "buff_step": 5},
+		"stamina_regen": {"title": "+Стамина реген", "level": 0, "max": 7, "base_cost": 20, "cost_mult": 1.25, "base_buff": 1,  "buff_step": 1},
 	},
 	"farm": {
 		# Ускорение добычи: уровень 1..5 (покупок 4)
-		"rock": {"title": "+Добыча камня",  "level": 0, "max": 4, "base_cost": 25, "cost_mult": 1.20, "base_buff": 0, "buff_step": 0},
-		"wood": {"title": "+Добыча дерева", "level": 0, "max": 4, "base_cost": 20, "cost_mult": 1.20, "base_buff": 0, "buff_step": 0},
+		"rock": {"title": "+Добыча камня",  "level": 0, "max": 4, "base_cost": 10, "cost_mult": 1.10, "base_buff": 0, "buff_step": 0},
+		"wood": {"title": "+Добыча дерева", "level": 0, "max": 4, "base_cost": 10, "cost_mult": 1.10, "base_buff": 0, "buff_step": 0},
 	},
 }
 
 
 var sell_prices := {
-	"rock": 2,
-	"wood": 1,
+	"rock": 3,
+	"wood": 2,
 }
 
 func upgrade_cost(category: String, key: String) -> int:
