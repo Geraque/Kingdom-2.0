@@ -135,6 +135,11 @@ func death_state():
 	velocity.x = 0
 	animPlayer.play("Death")
 	await animPlayer.animation_finished
+	var mgr := get_tree().get_first_node_in_group("pause_manager")
+	if mgr != null and mgr.has_method("reset_run"):
+		mgr.call("reset_run", true)
+	elif Global.has_method("reset_shop_upgrades"):
+		Global.call("reset_shop_upgrades")
 	queue_free()
 	get_tree().change_scene_to_file.bind("res://scn/menu/menu.tscn").call_deferred()
 

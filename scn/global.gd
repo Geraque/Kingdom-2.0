@@ -28,15 +28,15 @@ var shop_upgrades := {
 	},
 	"farm": {
 		# Ускорение добычи: уровень 1..5 (покупок 4)
-		"rock": {"title": "+Добыча камня",  "level": 0, "max": 4, "base_cost": 10, "cost_mult": 1.10, "base_buff": 0, "buff_step": 0},
-		"wood": {"title": "+Добыча дерева", "level": 0, "max": 4, "base_cost": 10, "cost_mult": 1.10, "base_buff": 0, "buff_step": 0},
+		"rock": {"title": "+Добыча камня",  "level": 0, "max": 4, "base_cost": 8, "cost_mult": 1.10, "base_buff": 0, "buff_step": 0},
+		"wood": {"title": "+Добыча дерева", "level": 0, "max": 4, "base_cost": 8, "cost_mult": 1.10, "base_buff": 0, "buff_step": 0},
 	},
 }
 
 
 var sell_prices := {
 	"rock": 3,
-	"wood": 2,
+	"wood": 2
 }
 
 func upgrade_cost(category: String, key: String) -> int:
@@ -170,3 +170,25 @@ func gather_hits_required(key: String, mining_level: int = -1) -> int:
 	if key == "rock":
 		return clamp(7 - lvl, 2, 6)
 	return 1
+
+# Сброс прокачек магазина (обнуление уровней), используется при завершении забега/смерти.
+func reset_shop_upgrades() -> void:
+	for cat in shop_upgrades.keys():
+		var cat_v: Variant = shop_upgrades[cat]
+		if typeof(cat_v) != TYPE_DICTIONARY:
+			continue
+		var cat_d: Dictionary = cat_v
+		for key in cat_d.keys():
+			var u_v: Variant = cat_d[key]
+			if typeof(u_v) == TYPE_DICTIONARY:
+				var u: Dictionary = u_v
+				if u.has("level"):
+					u["level"] = 0
+					cat_d[key] = u
+			elif typeof(u_v) == TYPE_INT or typeof(u_v) == TYPE_FLOAT:
+				cat_d[key] = 0
+		shop_upgrades[cat] = cat_d
+	# Принудительно обновляются статы персонажа и UI
+	if has_signal("upgrade_changed"):
+		emit_signal("upgrade_changed", "char", "reset")
+		emit_signal("upgrade_changed", "farm", "reset")

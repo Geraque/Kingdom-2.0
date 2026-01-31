@@ -194,12 +194,12 @@ func _make_icon(key: String, size := 24) -> TextureRect:
 	return textTect
 
 func _make_spin_icon(t: Texture2D, size := 64) -> TextureRect:
-	var tr := TextureRect.new()
-	tr.texture = t
-	tr.custom_minimum_size = Vector2(size, size)
-	tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	return tr
+	var textureRect := TextureRect.new()
+	textureRect.texture = t
+	textureRect.custom_minimum_size = Vector2(size, size)
+	textureRect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	textureRect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	return textureRect
 
 func _icon_key_for_upgrade(category: String, key: String) -> String:
 	if category == "char":
@@ -305,12 +305,12 @@ func _casino_make_tile(entry: Dictionary) -> Control:
 
 	var t: Texture2D = entry.get("texture", null)
 	if t != null:
-		var tr := TextureRect.new()
-		tr.texture = t
-		tr.custom_minimum_size = Vector2(60, 60)
-		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		m.add_child(tr)
+		var textureRect := TextureRect.new()
+		textureRect.texture = t
+		textureRect.custom_minimum_size = Vector2(60, 60)
+		textureRect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		textureRect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		m.add_child(textureRect)
 	else:
 		var l := Label.new()
 		l.text = str(entry.get("title", ""))

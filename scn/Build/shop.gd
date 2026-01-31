@@ -49,4 +49,9 @@ func take_damage(amount: int) -> void:
 		mob_health.call("apply_damage", amount)
 
 func _on_no_health() -> void:
+	var mgr := get_tree().get_first_node_in_group("pause_manager")
+	if mgr != null and mgr.has_method("reset_run"):
+		mgr.call("reset_run", true)
+	elif Global.has_method("reset_shop_upgrades"):
+		Global.call("reset_shop_upgrades")
 	get_tree().change_scene_to_file.bind("res://scn/menu/menu.tscn").call_deferred()

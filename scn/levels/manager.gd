@@ -7,10 +7,16 @@ extends Node
 # Статы игрока (CanvasLayer со скриптом stats.gd)
 @onready var player_stats: Node = player.get_node_or_null("stats")
 
-
 var game_paused: bool = false
 var _pause_reasons: Dictionary = {} # reason -> true
 var save_path: String = "user://savegame.save"
+
+# Значения по умолчанию для нового забега
+var _defaults_captured: bool = false
+var _default_gold: int = 0
+var _default_rock: int = 0
+var _default_wood: int = 0
+var _default_food: int = 0
 
 const SHOP_PATH: String = "Buildings/Shop"
 const SPAWNER_PATHS: Array[String] = [
@@ -52,7 +58,7 @@ func _apply_saved_upgrade_levels(saved_any: Dictionary) -> void:
 			if not Global.shop_upgrades[cat].has(key):
 				continue
 			var kv: Variant = cat_d[key]
-			var lvl := -1
+			var lvl: int = -1
 			if typeof(kv) == TYPE_DICTIONARY and kv.has("level"):
 				lvl = int(kv["level"])
 			elif typeof(kv) == TYPE_INT or typeof(kv) == TYPE_FLOAT:
@@ -87,10 +93,88 @@ func _write_health(node: Node, hp: int) -> void:
 	# на всякий случай отложенно, чтобы не попасть на flushing queries
 	mh.set_deferred("health", hp)
 
+func _capture_defaults_once() -> void:
+	if _defaults_captured:
+		return
+	_defaults_captured = true
+	_default_gold = int(Global.gold)
+	_default_rock = int(Global.rock)
+	_default_wood = int(Global.wood)
+	var food_v: Variant = Global.get("food")
+	if typeof(food_v) != TYPE_NIL:
+		_default_food = int(food_v)
+
+func _reset_all_shop_levels_to_zero() -> void:
+	for cat_any in Global.shop_upgrades.keys():
+		var cat: String = str(cat_any)
+		var cat_v: Variant = Global.shop_upgrades.get(cat, null)
+		if typeof(cat_v) != TYPE_DICTIONARY:
+			continue
+		for key_any in (cat_v as Dictionary).keys():
+			var key: String = str(key_any)
+			var u_v: Variant = (cat_v as Dictionary).get(key, null)
+			if typeof(u_v) != TYPE_DICTIONARY:
+				continue
+			var u: Dictionary = u_v
+			if u.has("level"):
+				u["level"] = 0
+				(Global.shop_upgrades[cat] as Dictionary)[key] = u
+
+	# обновление зависимых параметров (stats.gd и т.п.)
+	if Global.has_signal("upgrade_changed"):
+		Global.emit_signal("upgrade_changed", "char", "reset")
+		Global.emit_signal("upgrade_changed", "farm", "reset")
+
+func _reset_player_current_stats_to_max() -> void:
+	if player_stats == null:
+		return
+	var mh_v: Variant = player_stats.get("max_health")
+	if typeof(mh_v) != TYPE_NIL:
+		var mh: float = float(mh_v)
+		if typeof(player_stats.get("old_health")) != TYPE_NIL:
+			player_stats.set("old_health", mh)
+		player_stats.set("health", mh)
+	var ms_v: Variant = player_stats.get("max_stamina")
+	if typeof(ms_v) != TYPE_NIL:
+		player_stats.set("stamina", float(ms_v))
+
+func _clear_save_file() -> void:
+	var dir: DirAccess = DirAccess.open("user://")
+	if dir == null:
+		return
+	# save_path = user://savegame.save
+	var fname: String = save_path.replace("user://", "")
+	if dir.file_exists(fname):
+		dir.remove(fname)
+
+# Сброс прогресса забега: апгрейды, текущие статы и (опционально) ресурсы + сейв
+func reset_run(clear_save: bool = true, reset_resources: bool = true) -> void:
+	_capture_defaults_once()
+
+	# снять паузу, чтобы корректно уходить в меню
+	game_paused = false
+	_pause_reasons.clear()
+	if is_inside_tree() and get_tree() != null:
+		get_tree().paused = false
+
+	_reset_all_shop_levels_to_zero()
+	_reset_player_current_stats_to_max()
+
+	if reset_resources:
+		Global.gold = _default_gold
+		Global.rock = _default_rock
+		Global.wood = _default_wood
+		if typeof(Global.get("food")) != TYPE_NIL:
+			Global.set("food", _default_food)
+
+	if clear_save:
+		_clear_save_file()
+
 func _ready() -> void:
 	# чтобы менеджер продолжал работать при паузе
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	add_to_group("pause_manager")
+	_capture_defaults_once()
 	_apply_pause_state()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -112,7 +196,7 @@ func release_pause(reason: String = "external") -> void:
 	_apply_pause_state()
 
 func _apply_pause_state() -> void:
-	var should_pause := game_paused or (not _pause_reasons.is_empty())
+	var should_pause: bool = game_paused or (not _pause_reasons.is_empty())
 	get_tree().paused = should_pause
 	if game_paused:
 		pause_menu.show()
@@ -122,23 +206,19 @@ func _apply_pause_state() -> void:
 # поддержка старых вызовов: кнопки в меню меняют game_paused
 # и затем применяется итоговое состояние
 
-
 func _on_resume_pressed() -> void:
 	game_paused = !game_paused
 	_apply_pause_state()
 
-
 func _on_quit_pressed() -> void:
-	game_paused = false
-	_pause_reasons.clear()
-	get_tree().paused = false
+	# выход в меню считается завершением забега
+	reset_run(true, true)
 	get_tree().change_scene_to_file("res://scn/menu/menu.tscn")
-
 
 func _on_menu_button_pressed() -> void:
 	game_paused = !game_paused
 	_apply_pause_state()
-	
+
 func save_game() -> void:
 	var file := FileAccess.open(save_path, FileAccess.WRITE)
 	if file == null:
@@ -163,6 +243,7 @@ func save_game() -> void:
 		}
 		spawners_state[p] = st
 	buildings["spawners"] = spawners_state
+
 	# Текущие значения здоровья/стамины игрока (не максимальные)
 	var pstats: Dictionary = {}
 	if player_stats != null:
@@ -186,7 +267,6 @@ func save_game() -> void:
 	}
 
 	file.store_var(data)
-
 
 func load_game() -> void:
 	if not FileAccess.file_exists(save_path):
@@ -277,10 +357,10 @@ func load_game() -> void:
 					var st_v: Variant = spawners_state.get(p, null)
 					if typeof(st_v) != TYPE_DICTIONARY:
 						continue
-					var st: Dictionary = st_v
+					var st2: Dictionary = st_v
 					var sp_node: Node = level.get_node_or_null(NodePath(p))
-					var sp_alive: bool = bool(st.get("alive", true))
-					var sp_hp: int = int(st.get("hp", -1))
+					var sp_alive: bool = bool(st2.get("alive", true))
+					var sp_hp: int = int(st2.get("hp", -1))
 					if sp_node != null:
 						if (not sp_alive) or (sp_hp >= 0 and sp_hp <= 0):
 							sp_node.call_deferred("queue_free")
@@ -293,12 +373,10 @@ func load_game() -> void:
 	player.position.x = float(file.get_var(false))
 	player.position.y = float(file.get_var(false))
 
-
 func _on_save_pressed() -> void:
 	save_game()
 	game_paused = !game_paused
 	_apply_pause_state()
-
 
 func _on_load_pressed() -> void:
 	load_game()
