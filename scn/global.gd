@@ -7,6 +7,9 @@ var player_damage
 var damage_basic := 10
 var gold := 9999
 
+# Казик
+var casino_worm_obtained := false
+
 # Ресурсы
 var rock := 0
 var wood := 0
@@ -67,6 +70,14 @@ func buy_upgrade(category: String, key: String) -> bool:
 	if gold < cost:
 		return false
 	gold -= cost
+	shop_upgrades[category][key]["level"] = int(shop_upgrades[category][key]["level"]) + 1
+	emit_signal("upgrade_changed", category, key)
+	return true
+
+# Выдать апгрейд без оплаты (для казика).
+func grant_upgrade(category: String, key: String) -> bool:
+	if upgrade_is_max(category, key):
+		return false
 	shop_upgrades[category][key]["level"] = int(shop_upgrades[category][key]["level"]) + 1
 	emit_signal("upgrade_changed", category, key)
 	return true
