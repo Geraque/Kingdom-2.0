@@ -644,7 +644,7 @@ script = ExtResource("11_beupw")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("14_gqwpf")
-volume_db = -25.0
+volume_db = -27.0
 autoplay = true
 
 [node name="Gatherables" type="Node2D" parent="."]
