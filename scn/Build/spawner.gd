@@ -27,7 +27,7 @@ var _dead: bool = false
 
 var mushroom_preload = preload("res://scn/mobs/mushroom.tscn")
 var skeleton_preload = preload("res://scn/mobs/skeleton.tscn")
-
+var dark_preload = preload("res://scn/mobs/night_born.tscn")
 
 func _ready() -> void:
 	# Смена времени суток — для сброса в idle и т.п.
@@ -223,7 +223,9 @@ func mushroom_spawn() -> void:
 # При добавлении логики рекомендуется делать спавн через call_deferred(),
 # чтобы не ловить ошибки flushing queries в колбэках физики.
 func spawn_dark() -> void:
-	pass
+	var dark = dark_preload.instantiate()
+	dark.position = Vector2(position.x, spawn_y)
+	mobs.call_deferred("add_child", dark)
 
 
 func _on_mob_health_no_health() -> void:

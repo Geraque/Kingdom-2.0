@@ -2,6 +2,7 @@ extends Enemy
 
 func _ready() -> void:
 	damage = 30
+	state = CHASE
 
 
 func _on_mob_health_no_health() -> void:

@@ -5,7 +5,7 @@ signal upgrade_changed(category: String, key: String)
 var player_pos
 var player_damage
 var damage_basic := 10
-var gold := 9999
+var gold := 70
 
 # Казик
 var casino_worm_obtained := false
@@ -17,17 +17,22 @@ var wood := 0
 # Апгрейды магазина (лимит 7; для бесконечности поставить max = -1)
 var shop_upgrades := {
 	"char": {
-		"damage":  {"title": "+Урон",       "level": 0, "max": 7, "base_cost": 25, "cost_mult": 1.45, "base_buff": 2,  "buff_step": 2},
-		"stamina": {"title": "+Стамина",    "level": 0, "max": 7, "base_cost": 20, "cost_mult": 1.40, "base_buff": 5,  "buff_step": 5},
-		"stamina_regen": {"title": "+Стамина реген",    "level": 0, "max": 7, "base_cost": 20, "cost_mult": 1.40, "base_buff": 5,  "buff_step": 5},
-		"hp":      {"title": "+HP",         "level": 0, "max": 7, "base_cost": 30, "cost_mult": 1.50, "base_buff": 10, "buff_step": 10},
-		"regen":   {"title": "+HP реген",   "level": 0, "max": 7, "base_cost": 18, "cost_mult": 1.35, "base_buff": 1,  "buff_step": 1},
+		# Бой
+		"damage":  {"title": "+Урон",            "level": 0, "max": 7, "base_cost": 35, "cost_mult": 1.25, "base_buff": 2,  "buff_step": 2},
+		"hp":      {"title": "+HP",              "level": 0, "max": 7, "base_cost": 35, "cost_mult": 1.20, "base_buff": 10, "buff_step": 10},
+		"regen":   {"title": "+HP реген",        "level": 0, "max": 7, "base_cost": 30, "cost_mult": 1.25, "base_buff": 1,  "buff_step": 1},
+
+		# Выносливость
+		"stamina":       {"title": "+Стамина",       "level": 0, "max": 7, "base_cost": 25, "cost_mult": 1.2, "base_buff": 5,  "buff_step": 5},
+		"stamina_regen": {"title": "+Стамина реген", "level": 0, "max": 7, "base_cost": 30, "cost_mult": 1.25, "base_buff": 2,  "buff_step": 2},
 	},
 	"farm": {
-		"rock":    {"title": "+Добыча камня",    "level": 0, "max": 4, "base_cost": 15, "cost_mult": 1.35, "base_buff": 5,  "buff_step": 5},
-		"wood":    {"title": "+Добыча дерева",   "level": 0, "max": 4, "base_cost": 15, "cost_mult": 1.35, "base_buff": 5,  "buff_step": 5},
+		# Ускорение добычи: уровень 1..5 (покупок 4)
+		"rock": {"title": "+Добыча камня",  "level": 0, "max": 4, "base_cost": 25, "cost_mult": 1.20, "base_buff": 0, "buff_step": 0},
+		"wood": {"title": "+Добыча дерева", "level": 0, "max": 4, "base_cost": 20, "cost_mult": 1.20, "base_buff": 0, "buff_step": 0},
 	},
 }
+
 
 var sell_prices := {
 	"rock": 2,
