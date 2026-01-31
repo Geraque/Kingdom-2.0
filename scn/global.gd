@@ -23,7 +23,7 @@ var shop_upgrades := {
 		"regen":   {"title": "+HP реген",        "level": 0, "max": 7, "base_cost": 20, "cost_mult": 1.25, "base_buff": 1,  "buff_step": 1},
 
 		# Выносливость
-		"stamina":       {"title": "+Стамина",       "level": 0, "max": 7, "base_cost": 15, "cost_mult": 1.2, "base_buff": 5,  "buff_step": 5},
+		"stamina":       {"title": "+Стамина",       "level": 0, "max": 7, "base_cost": 15, "cost_mult": 1.2, "base_buff": 10,  "buff_step": 10},
 		"stamina_regen": {"title": "+Стамина реген", "level": 0, "max": 7, "base_cost": 20, "cost_mult": 1.25, "base_buff": 1,  "buff_step": 1},
 	},
 	"farm": {

@@ -11,7 +11,7 @@ signal spawn_cycle_done
 
 # Опционально: звук начала волны/агро для этого спавнера.
 # Если не назначен — используется stream, заданный у AudioStreamPlayer2D в сцене.
-@export var attack_sound: AudioStream
+@export var attack_sound: AudioStreamPlayer2D
 
 @onready var mobs: Node2D = $".."
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -187,12 +187,10 @@ func _play_attack_sound() -> void:
 
 	#if attack_sound != null:
 		#audio_stream_player.stream = attack_sound
-
+	print(attack_sound)
 	audio_stream_player.play()
 	await audio_stream_player.finished
-	var audio_stream_player2 = audio_stream_player
-	audio_stream_player2.stream = attack_sound
-	audio_stream_player2.play()
+	attack_sound.play()
 	
 
 

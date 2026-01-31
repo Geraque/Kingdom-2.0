@@ -27,7 +27,7 @@ var regen_amount: float = BASE_REGEN_AMOUNT
 
 var old_health: float = BASE_MAX_HEALTH
 
-var _stamina: float = 50.0
+var _stamina: float = 80.0
 var stamina: float:
 	get:
 		return _stamina

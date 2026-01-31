@@ -1275,7 +1275,7 @@ polygon = PackedVector2Array(-7, -2, 8, -2, 9, 0, -8, 0)
 radius = 8.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_d5str"]
-radius = 8.0
+radius = 9.0
 
 [sub_resource type="Animation" id="Animation_13uxq"]
 length = 0.001
