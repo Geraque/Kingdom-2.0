@@ -2,10 +2,16 @@ extends Node2D
 
 signal spawn_cycle_done
 
+@export_enum("left", "right") var spawn_side: int = 0
+
 @export var max_health: int = 150
 @export var aggro_duration: float = 10.0
 @export var aggro_spawn_interval: float = 1.6
 @export var spawn_y: float = 550.0
+
+# Опционально: звук начала волны/агро для этого спавнера.
+# Если не назначен — используется stream, заданный у AudioStreamPlayer2D в сцене.
+@export var attack_sound: AudioStream
 
 @onready var mobs: Node2D = $".."
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -21,11 +27,15 @@ var _dead: bool = false
 
 var mushroom_preload = preload("res://scn/mobs/mushroom.tscn")
 var skeleton_preload = preload("res://scn/mobs/skeleton.tscn")
-var dark_preload = preload("res://scn/mobs/night_born.tscn")
 
 
 func _ready() -> void:
+	# Смена времени суток — для сброса в idle и т.п.
 	Signals.connect("day_time", Callable(self, "_on_time_changed"))
+
+	# Ночной спавн волн — централизованно, чтобы управлять количеством активных спавнеров
+	if Signals.has_signal("night_wave"):
+		Signals.connect("night_wave", Callable(self, "_on_night_wave"))
 
 	# завершение анимации спавна
 	if not animation_player.animation_finished.is_connected(Callable(self, "_on_animation_finished")):
@@ -62,22 +72,43 @@ func _ready() -> void:
 			hurt_box.area_entered.connect(Callable(self, "_on_hurt_box_area_entered"))
 
 
-func _on_time_changed(state, day_count) -> void:
+func _on_time_changed(state, _day_count) -> void:
 	if _dead:
 		return
 
-	var rng := randi_range(0, 2)
+	# В не-ночное время просто гарантируется idle (если не идёт спавн/агро)
+	if state != 3:
+		if not _spawn_locked and not _aggro_active:
+			animation_player.play("idle")
 
-	# обычные волны (без spawn_dark)
-	if state == 3:
-		audio_stream_player.play()
-		for i in range(day_count + rng):
-			# гарантированный последовательный спавн
-			while not _spawn_anim_once():
-				await get_tree().process_frame
-				if _dead:
-					return
-			await spawn_cycle_done
+
+func _on_night_wave(day_count: int, active_mask: int) -> void:
+	if _dead:
+		return
+
+	var my_mask: int = 1 << spawn_side
+	if (active_mask & my_mask) == 0:
+		return
+
+	await _spawn_night_wave(day_count)
+
+
+func _spawn_night_wave(day_count: int) -> void:
+	if _dead:
+		return
+
+	var rng: int = randi_range(0, 2)
+	var count: int = day_count + rng
+
+	_play_attack_sound()
+
+	for i in range(count):
+		# гарантированный последовательный спавн
+		while not _spawn_anim_once():
+			await get_tree().process_frame
+			if _dead:
+				return
+		await spawn_cycle_done
 
 	if not _dead:
 		animation_player.play("idle")
@@ -104,7 +135,7 @@ func _start_aggro_if_needed() -> void:
 	# особый моб — только в режиме атаки спавнера (не в обычных волнах)
 	spawn_dark()
 
-	audio_stream_player.play()
+	_play_attack_sound()
 
 	if aggro_timer != null:
 		aggro_timer.start(aggro_duration)
@@ -150,6 +181,21 @@ func _on_animation_finished(anim_name: StringName) -> void:
 	emit_signal("spawn_cycle_done")
 
 
+func _play_attack_sound() -> void:
+	if audio_stream_player == null:
+		return
+
+	#if attack_sound != null:
+		#audio_stream_player.stream = attack_sound
+
+	audio_stream_player.play()
+	await audio_stream_player.finished
+	var audio_stream_player2 = audio_stream_player
+	audio_stream_player2.stream = attack_sound
+	audio_stream_player2.play()
+	
+
+
 func enemy_spawn() -> void:
 	if _dead:
 		return
@@ -174,10 +220,10 @@ func mushroom_spawn() -> void:
 
 
 # Заглушка под особого моба. В обычных волнах не вызывается.
+# При добавлении логики рекомендуется делать спавн через call_deferred(),
+# чтобы не ловить ошибки flushing queries в колбэках физики.
 func spawn_dark() -> void:
-	var dark = dark_preload.instantiate()
-	dark.position = Vector2(position.x, spawn_y)
-	mobs.call_deferred("add_child", dark)
+	pass
 
 
 func _on_mob_health_no_health() -> void:
