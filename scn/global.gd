@@ -13,7 +13,6 @@ var casino_worm_obtained := false
 # Ресурсы
 var rock := 0
 var wood := 0
-var food := 10
 
 # Апгрейды магазина (лимит 7; для бесконечности поставить max = -1)
 var shop_upgrades := {
@@ -27,14 +26,12 @@ var shop_upgrades := {
 	"farm": {
 		"rock":    {"title": "+Добыча камня",    "level": 0, "max": 4, "base_cost": 15, "cost_mult": 1.35, "base_buff": 5,  "buff_step": 5},
 		"wood":    {"title": "+Добыча дерева",   "level": 0, "max": 4, "base_cost": 15, "cost_mult": 1.35, "base_buff": 5,  "buff_step": 5},
-		"mobs":    {"title": "+Добыча монстров", "level": 0, "max": 7, "base_cost": 25, "cost_mult": 1.40, "base_buff": 5,  "buff_step": 5},
 	},
 }
 
 var sell_prices := {
 	"rock": 2,
 	"wood": 1,
-	"food": 2,
 }
 
 func upgrade_cost(category: String, key: String) -> int:
@@ -102,7 +99,6 @@ func resource_amount(key: String) -> int:
 	match key:
 		"rock": return rock
 		"wood": return wood
-		"food": return food
 		_: return 0
 
 func resource_take(key: String, amount: int) -> bool:
@@ -115,9 +111,6 @@ func resource_take(key: String, amount: int) -> bool:
 		"wood":
 			if wood < amount: return false
 			wood -= amount
-		"food":
-			if food < amount: return false
-			food -= amount
 		_:
 			return false
 	return true
@@ -142,8 +135,6 @@ func resource_add(key: String, amount: int) -> void:
 			rock += amount
 		"wood":
 			wood += amount
-		"food":
-			food += amount
 
 # Уровни добычи (1..5) берутся из вкладки "Фарм" магазина.
 # В shop_upgrades хранится внутренний уровень 0..4, поэтому +1.

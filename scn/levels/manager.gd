@@ -177,7 +177,6 @@ func save_game() -> void:
 		"gold": Global.gold,
 		"rock": Global.rock,
 		"wood": Global.wood,
-		"food": Global.food,
 		# Сохраняются только уровни апгрейдов, чтобы сейвы не ломались при изменении цен/иконок/текстов
 		"shop_levels": _extract_upgrade_levels(Global.shop_upgrades),
 		"player_stats": pstats,
@@ -205,7 +204,6 @@ func load_game() -> void:
 		Global.gold = int(data.get("gold", Global.gold))
 		Global.rock = int(data.get("rock", Global.rock))
 		Global.wood = int(data.get("wood", Global.wood))
-		Global.food = int(data.get("food", Global.food))
 
 		# ВАЖНО: уровни апгрейдов мержатся в текущую структуру,
 		# чтобы новые ключи (например, stamina_regen) не терялись при загрузке старых сейвов.

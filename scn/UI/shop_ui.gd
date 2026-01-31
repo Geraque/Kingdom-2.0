@@ -28,18 +28,15 @@ const ICONS := {
 	# Фарм
 	"farm_rock": "res://assets/shop/Rock_Icon.png",
 	"farm_wood": "res://assets/shop/Wood_Icon.png",
-	"farm_mobs": "res://assets/shop/Attack_Icon.png",
 
 	# Продажа
 	"sell_rock": "res://assets/shop/Rock_Icon.png",
 	"sell_wood": "res://assets/shop/Wood_Icon.png",
-	"sell_food": "res://assets/shop/Food_Icon.png",
 }
 
 const RESOURCE_NAMES := {
 	"rock": "Камень",
 	"wood": "Дерево",
-	"food": "Еда",
 }
 
 const CASINO_COST := 50
@@ -69,8 +66,8 @@ func _ready() -> void:
 		tabs.set_tab_title(3, "Казик")
 
 	_build_buy_tab("char", 0, ["damage", "stamina", "stamina_regen", "hp", "regen"])
-	_build_buy_tab("farm", 1, ["rock", "wood", "mobs"])
-	_build_sell_tab(2, ["rock", "wood", "food"])
+	_build_buy_tab("farm", 1, ["rock", "wood"])
+	_build_sell_tab(2, ["rock", "wood"])
 	_init_kazik()
 
 	visible = false
@@ -216,7 +213,6 @@ func _icon_key_for_upgrade(category: String, key: String) -> String:
 		match key:
 			"rock": return "farm_rock"
 			"wood": return "farm_wood"
-			"mobs": return "farm_mobs"
 	return ""
 
 
@@ -501,7 +497,6 @@ func _build_sell_tab(tab_index: int, ordered_keys: Array) -> void:
 		var icon_key := ""
 		if key == "rock": icon_key = "sell_rock"
 		elif key == "wood": icon_key = "sell_wood"
-		elif key == "food": icon_key = "sell_food"
 		if icon_key != "":
 			row.add_child(_make_icon(icon_key, 26))
 
