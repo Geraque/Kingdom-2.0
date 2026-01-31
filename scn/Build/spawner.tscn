@@ -1,8 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://dhndr6h1q3tt1"]
+[gd_scene load_steps=25 format=3 uid="uid://dhndr6h1q3tt1"]
 
 [ext_resource type="Script" uid="uid://drblc57w4nkgv" path="res://scn/Build/spawner.gd" id="1_3km1i"]
 [ext_resource type="Texture2D" uid="uid://bn0qsep8lnsp7" path="res://assets/spawner/Obelisk.png" id="1_jfdh8"]
 [ext_resource type="AudioStream" uid="uid://bmkykk2kkrras" path="res://assets/sound/SFX/buildings/attack.wav" id="3_hffqe"]
+[ext_resource type="PackedScene" uid="uid://wuxg4cx4j7vt" path="res://scn/mobs/mob_health.tscn" id="4_mobhealth"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3km1i"]
 atlas = ExtResource("1_jfdh8")
@@ -197,6 +198,9 @@ _data = {
 &"spawn": SubResource("Animation_hffqe")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_spawner"]
+size = Vector2(140, 180)
+
 [node name="Spawner" type="Node2D"]
 script = ExtResource("1_3km1i")
 
@@ -215,3 +219,23 @@ libraries = {
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_hffqe")
 volume_db = 8.0
+
+[node name="MobHealth" parent="." instance=ExtResource("4_mobhealth")]
+position = Vector2(0, -70)
+scale = Vector2(0.25, 0.25)
+max_health = 150
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, -40)
+shape = SubResource("RectangleShape2D_spawner")
+
+[node name="AggroTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="AggroSpawnTimer" type="Timer" parent="."]
+wait_time = 1.6
