@@ -623,12 +623,12 @@ text = "Menu"
 
 [node name="Spawner" parent="Mobs" instance=ExtResource("11_w3gln")]
 z_index = 3
-position = Vector2(-1424, 516)
+position = Vector2(-1424, 519)
 attack_sound = ExtResource("12_ofgtd")
 
 [node name="Spawner2" parent="Mobs" instance=ExtResource("11_w3gln")]
 z_index = 3
-position = Vector2(2412, 516)
+position = Vector2(2414, 520)
 spawn_side = 1
 attack_sound = ExtResource("13_wkugg")
 
@@ -662,24 +662,26 @@ avoid_shop_path = NodePath("../../Buildings/Shop")
 [node name="Signs" type="Node2D" parent="."]
 
 [node name="GuideText" type="Label" parent="Signs"]
-offset_left = 211.0
-offset_top = 404.0
-offset_right = 361.0
+offset_left = 218.0
+offset_top = 378.0
+offset_right = 403.0
 offset_bottom = 531.0
 text = "A/D - Ходьба
-W/SPACE - Удар
+W/SPACE - Удар/Добыча
 Ctrl - Бег
-S - Блок/Уворот
-E - Интерактировать"
+S - Блок
+S + A/D - Уворот
+E - Взаимодействие"
 script = ExtResource("18_5rxg3")
 
 [node name="GuideSign" parent="Signs" instance=ExtResource("19_h5c3s")]
-position = Vector2(268, 551)
+position = Vector2(280, 551)
 text = "A/D - Ходьба
-W/SPACE - Удар
+W/SPACE - Удар/Добыча
 Ctrl - Бег
-S - Блок/Уворот
-E - Интерактировать"
+S - Блок
+S + A/D - Уворот
+E - Взаимодействие"
 
 [node name="LeftSideSign" parent="Signs" instance=ExtResource("19_h5c3s")]
 position = Vector2(-2254, 551)

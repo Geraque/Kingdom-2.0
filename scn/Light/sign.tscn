@@ -23,16 +23,17 @@ shape = SubResource("RectangleShape2D_vib2h")
 texture = ExtResource("1_e1xjj")
 
 [node name="Text" type="Label" parent="InteractArea"]
-offset_left = -57.0
-offset_top = -146.0
-offset_right = 93.0
-offset_bottom = -19.0
+offset_left = -62.0
+offset_top = -173.0
+offset_right = 123.0
+offset_bottom = -20.0
 theme_override_font_sizes/font_size = 16
 text = "A/D - Ходьба
-W/SPACE - Удар
+W/SPACE - Удар/Добыча
 Ctrl - Бег
-S - Блок/Уворот
-E - Интерактировать"
+S - Блок
+S + A/D - Уворот
+E - Взаимодействие"
 script = ExtResource("3_ue2mv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
