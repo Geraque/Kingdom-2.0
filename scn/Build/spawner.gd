@@ -176,8 +176,9 @@ func mushroom_spawn() -> void:
 # Заглушка под особого моба. В обычных волнах не вызывается.
 func spawn_dark() -> void:
 	var dark = dark_preload.instantiate()
-	dark.position = Vector2(self.position.x, spawn_y)
-	mobs.add_child(dark)
+	dark.position = Vector2(position.x, spawn_y)
+	mobs.call_deferred("add_child", dark)
+
 
 func _on_mob_health_no_health() -> void:
 	if _dead:

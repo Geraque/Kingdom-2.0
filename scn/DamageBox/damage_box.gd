@@ -1,5 +1,6 @@
 extends Node2D
 
-
 func _ready() -> void:
-	$HitBox/CollisionShape2D.disabled = true
+	var shape: CollisionShape2D = $HitBox/CollisionShape2D
+	if shape != null:
+		shape.set_deferred("disabled", true)
