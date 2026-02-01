@@ -7,8 +7,8 @@ class_name ResourceSpawner
 @export var tree_scene: PackedScene
 @export var rock_scene: PackedScene
 
-@export var trees_per_day: int = 5
-@export var rocks_per_day: int = 5
+@export var trees_per_day: int = 6
+@export var rocks_per_day: int = 6
 
 # Какой слой TileMap считать "землёй"
 @export var tile_layer_idx: int = 0

@@ -41,10 +41,6 @@ layout_mode = 2
 layout_mode = 2
 text = "X"
 
-[node name="Gold" type="Label" parent="Root/Panel/VBox/Header"]
-layout_mode = 2
-text = "Gold: 0"
-
 [node name="Spacer" type="Control" parent="Root/Panel/VBox/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -56,6 +52,10 @@ text = "SHOP"
 [node name="Spacer2" type="Control" parent="Root/Panel/VBox/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Gold" type="Label" parent="Root/Panel/VBox/Header"]
+layout_mode = 2
+text = "Gold: 0"
 
 [node name="Tabs" type="TabContainer" parent="Root/Panel/VBox"]
 layout_mode = 2
