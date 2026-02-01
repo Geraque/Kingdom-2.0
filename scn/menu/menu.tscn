@@ -9,23 +9,25 @@
 script = ExtResource("1_lti8b")
 
 [node name="Play" type="Button" parent="."]
-offset_left = 445.0
-offset_top = 170.0
-offset_right = 764.0
-offset_bottom = 296.0
+offset_left = 695.0
+offset_top = 262.0
+offset_right = 1014.0
+offset_bottom = 388.0
 theme_override_font_sizes/font_size = 50
 text = "Play
 "
 
 [node name="Quit" type="Button" parent="."]
-offset_left = 444.0
-offset_top = 338.0
-offset_right = 763.0
-offset_bottom = 464.0
+offset_left = 695.0
+offset_top = 421.0
+offset_right = 1014.0
+offset_bottom = 547.0
 theme_override_font_sizes/font_size = 50
 text = "Quit"
 
 [node name="BG" parent="." instance=ExtResource("2_ouk20")]
+scale = Vector2(1.57, 1.57)
+transform = Transform2D(1.57, 0, 0, 1.57, 0, 0)
 
 [node name="music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_exl8l")

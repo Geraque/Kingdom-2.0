@@ -1493,7 +1493,8 @@ libraries = {
 
 [node name="Lantern" parent="." instance=ExtResource("8_13uxq")]
 position = Vector2(0, -15)
-scale = Vector2(0.082499996, 0.082499996)
+scale = Vector2(0.120000005, 0.112500004)
+energy = 1.75
 
 [node name="Leaves" parent="." instance=ExtResource("9_13uxq")]
 

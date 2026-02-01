@@ -2,6 +2,7 @@ extends Enemy
 
 func _ready() -> void:
 	damage = 30
+	move_speed = 165
 	state = CHASE
 
 
